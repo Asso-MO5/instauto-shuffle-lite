@@ -1,0 +1,40 @@
+{
+  "name": "instauto-shuffle-lite",
+  "version": "0.0.3",
+  "description": "simple function for auto post in instagram",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://gitlab.com/kazerlelutin/instauto-lite.git"
+  },
+  "bin": {
+    "instauto-shuffle-lite": "./index.js"
+  },
+  "keywords": [
+    "instagram",
+    "auto"
+  ],
+  "author": {
+    "email": "social@studiokami.fr",
+    "name": "Kazerlelutin",
+    "url": "https://twitter.com/kazerlelutin"
+  },
+  "license": "ISC",
+  "bugs": {
+    "url": "https://gitlab.com/kazerlelutin/instauto-lite/issues"
+  },
+  "homepage": "https://gitlab.com/kazerlelutin/instauto-lite#readme",
+  "dependencies": {
+    "chalk": "^4.1.0",
+    "clear": "^0.1.0",
+    "figlet": "^1.5.0",
+    "inquirer": "^7.3.3",
+    "instagram-web-api": "^2.2.2"
+  },
+  "devDependencies": {
+    "dotenv": "^8.2.0"
+  }
+}
