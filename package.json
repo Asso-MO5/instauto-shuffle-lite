@@ -1,6 +1,6 @@
 {
   "name": "instauto-shuffle-lite",
-  "version": "0.0.3",
+  "version": "0.0.6",
   "description": "simple function for auto post in instagram",
   "main": "index.js",
   "scripts": {
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://gitlab.com/kazerlelutin/instauto-lite.git"
+    "url": "git+https://github.com/Asso-MO5/instauto-shuffle-lite.git"
   },
   "bin": {
     "instauto-shuffle-lite": "./index.js"
@@ -17,16 +17,20 @@
     "instagram",
     "auto"
   ],
-  "author": {
+  "authors": [{
+    "name": "Association MO5.COM",
+    "url": "https://mo5.com"
+  },{
     "email": "social@studiokami.fr",
     "name": "Kazerlelutin",
-    "url": "https://twitter.com/kazerlelutin"
-  },
+    "url":"https://gridbattle.space"
+  }
+],
   "license": "ISC",
   "bugs": {
-    "url": "https://gitlab.com/kazerlelutin/instauto-lite/issues"
+    "url": "https://github.com/Asso-MO5/instauto-shuffle-lite/issues"
   },
-  "homepage": "https://gitlab.com/kazerlelutin/instauto-lite#readme",
+  "homepage": "https://github.com/Asso-MO5/instauto-shuffle-litee#readme",
   "dependencies": {
     "chalk": "^4.1.0",
     "clear": "^0.1.0",
