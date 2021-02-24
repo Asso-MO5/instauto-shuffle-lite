@@ -1,4 +1,4 @@
-![logo](https://gitlab.com/kazerlelutin/instauto-lite/-/raw/master/favicon.png)
+![logo](https://github.com/Asso-MO5/instauto-shuffle-lite/blob/master/favicon.png?raw=true)
 
 # InstAuto Shuffle Lite
 
@@ -42,3 +42,5 @@ become:
 ```bash
 my-picture[ias-publish].jpg
 ```
+
+*Visit [MO5.COM](https://mo5.com).*
