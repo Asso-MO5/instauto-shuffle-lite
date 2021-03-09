@@ -30,6 +30,26 @@ instauto-shuffle-lite
 
 ## How to use
 
+
+## v0.1.0
+**Instauto Shuffle Lite** save our datas in `save.json` file, in your images folder. 
+
+What datas is saved in `save.json` ? 
+- credentials
+- publish images
+- default text
+
+### text per image
+
+If you have a **text file** (`.txt`) with **same name** of image in same folder, You can choice this text. 
+
+```bash
+- my-cat.jpg
+- my-cat.txt
+```
+
+## v0.0.6
+
 ### Success
 If your picture is publish, it's rename with `[ias-publish]` for exclude to random choice.
 
