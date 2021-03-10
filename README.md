@@ -31,6 +31,11 @@ instauto-shuffle-lite
 ## How to use
 
 
+## V0.1.2
+you can add **argument** `folder`. dont  forget `""`:
+```bash
+npx instauto-shuffle-lite folder="MY_PICTURE_FOLDER_LINK"
+```
 ## v0.1.0
 **Instauto Shuffle Lite** save our datas in `save.json` file, in your images folder. 
 

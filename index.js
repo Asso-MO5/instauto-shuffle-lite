@@ -46,10 +46,6 @@ async function run() {
     slash = folder.includes(`\\`) ? '\\': '/',
     files = await readdir(folder).catch(e => error = e);
 
-
-
-    console.log('v',args)
-
     if(error){return console.log(chalk.red(error))}
 
     const
@@ -70,9 +66,6 @@ async function run() {
     if(!credentialsSave || (!credentialsSave.username && !credentialsSave.password)){
 
         console.log(chalk.red('no "save.json" file found.' ));
-
-  
-
         const credentialsQuestions = await inquirer.prompt([
             {
                 type: 'input',
@@ -352,7 +345,7 @@ function init(){
                 horizontalLayout: 'default',
                 whitespaceBreak: true 
             })
-        ),'v0.1.1'
+        ),'v0.1.2'
     );
     run();
 }
