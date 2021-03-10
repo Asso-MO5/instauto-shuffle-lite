@@ -1,6 +1,6 @@
 {
   "name": "instauto-shuffle-lite",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "simple function for auto post in instagram",
   "main": "index.js",
   "scripts": {
@@ -39,7 +39,8 @@
     "figlet": "^1.5.0",
     "inquirer": "^7.3.3",
     "instagram-web-api": "^2.2.2",
-    "lowdb": "^1.0.0"
+    "lowdb": "^1.0.0",
+    "yargs": "^16.2.0"
   },
   "devDependencies": {
     "dotenv": "^8.2.0"

@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 const
+    yargs = require('yargs'),
     low = require('lowdb'),
     FileSync = require('lowdb/adapters/FileSync'),
     clear = require('clear'),
@@ -12,7 +13,10 @@ const
     lstat= util.promisify(fs.lstat),
     readdir = util.promisify(fs.readdir),
     readFile = util.promisify(fs.readFile),
-    typeFile = require('./typeFile');
+    typeFile = require('./typeFile'),
+    args = process.argv.slice(2),
+    params = {};
+
 
 function getRandom(max) {
     min = 0;
@@ -24,15 +28,27 @@ async function run() {
     
     let error;
 
+    args.forEach(arg=>{
+        if(arg.includes('=')){
+            const [key,value] = arg.split('=')
+            params[key] = value;
+        }
+    });
+
     const 
         firstQuestion = await inquirer.prompt({
             type: "input",
             name: "folder",
-            message: "Pictures' folder path : "
+            message: "Pictures' folder path : ",
+            default: params.folder
         }),
     {folder} = firstQuestion,
     slash = folder.includes(`\\`) ? '\\': '/',
     files = await readdir(folder).catch(e => error = e);
+
+
+
+    console.log('v',args)
 
     if(error){return console.log(chalk.red(error))}
 
@@ -54,6 +70,8 @@ async function run() {
     if(!credentialsSave || (!credentialsSave.username && !credentialsSave.password)){
 
         console.log(chalk.red('no "save.json" file found.' ));
+
+  
 
         const credentialsQuestions = await inquirer.prompt([
             {
@@ -334,7 +352,7 @@ function init(){
                 horizontalLayout: 'default',
                 whitespaceBreak: true 
             })
-        )
+        ),'v0.1.1'
     );
     run();
 }
