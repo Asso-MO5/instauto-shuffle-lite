@@ -15,8 +15,11 @@ const
     readFile = util.promisify(fs.readFile),
     typeFile = require('./typeFile'),
     args = process.argv.slice(2),
+    iconv = require('iconv-lite'),
+    chardet = require('chardet'),
     params = {};
 
+iconv.skipDecodeWarning = true;
 
 function getRandom(max) {
     min = 0;
@@ -45,7 +48,7 @@ async function run() {
     {folder} = firstQuestion,
     slash = folder.includes(`\\`) ? '\\': '/',
     files = await readdir(folder).catch(e => error = e);
-
+    
     if(error){return console.log(chalk.red(error))}
 
     const
@@ -96,9 +99,13 @@ async function run() {
         credentials.password = credentialsSave.password;
     }
 
-    const client = new Instagram(credentials);
-    await client.login().catch(e => error = e);
-    const profile = await client.getProfile();
+    console.log(chalk.magenta('connect to Instagram...'));
+    //const client = new Instagram(credentials);
+    //await client.login().catch(e => error = e);
+    //const profile = await client.getProfile();
+    const profile = {
+        username : 'ops'
+    }
 
     if(!profile){
         
@@ -124,6 +131,7 @@ async function run() {
 
     console.log(chalk.greenBright.inverse(`Welcome to Instagram ${profile.username}.`));
     console.log(chalk.greenBright('\n'));
+
     for(const file of files){
 
         const
@@ -141,9 +149,8 @@ async function run() {
                 for(const subFile of subFolder){
                     const
                         subLink = link + slash + subFile,
-                        subFiletoArray = subFile.split('.');
-
-                    const search = db.get('files').find({ link: subLink }).value();
+                        subFiletoArray = subFile.split('.'),
+                        search = db.get('files').find({ link: subLink }).value();
 
                     if(!search){
                         const type = typeFile(subFile);
@@ -153,14 +160,13 @@ async function run() {
                             .push({
                                 name: subFiletoArray[0],
                                 type,
-                                value: type === "txt" && await readFile(subLink, 'utf-8'),
+                                value: type === "txt" && iconv.decode(await readFile(link) ,chardet.detectFileSync(link)),
                                 link: subLink,
                                 publish: false,
                                 folder: link
                             })
                             .write();
                         }
-         
                     }
                 }
             }
@@ -171,13 +177,14 @@ async function run() {
 
                 if(!search){
                     const type = typeFile(file);
+
                     if(type){
                         db
                         .get('files')
                         .push({
                             name: filetoArray[0],
                             type,
-                            value: type === "txt" && await readFile(link, 'utf-8'),
+                            value: type === "txt" && iconv.decode(await readFile(link) ,chardet.detectFileSync(link)),
                             link,
                             folder,
                             publish: false
@@ -202,7 +209,7 @@ async function run() {
     let caption;
 
     if(!textImage){
-        
+
         if(!searchDefaultText){
             const writeText = await inquirer.prompt([
                 {
@@ -213,7 +220,7 @@ async function run() {
             ]);
             
             const {write_txt} = writeText; 
-    
+
             if(write_txt){
                 const defaultTxt = await inquirer.prompt([
                     {
@@ -228,14 +235,15 @@ async function run() {
                     }
                 ]);
                 
-                const {default_txt, save_defaultTxt} = defaultTxt; 
-    
+                const 
+                    {default_txt, save_defaultTxt} = defaultTxt,
+                    default_txt_decode = iconv.decode(default_txt ,chardet.detect(Buffer.from(default_txt)));
                 if(save_defaultTxt){
-                    db.set('defaultText', default_txt).write();
+                    db.set('defaultText', default_txt_decode).write();
                     console.log(chalk.green('text saved !'));
                 }
 
-                if(default_txt.length > 2){caption = default_txt}
+                if(default_txt.length > 2){caption = default_txt_decode}
             }
         } else {
 
@@ -269,10 +277,11 @@ async function run() {
                 
                 const {new_txt, save_newTxt} = newTxt; 
 
-                if(new_txt.length > 2){caption = new_txt}
+                const newDecodeTxt =  iconv.decode(new_txt ,chardet.detect(Buffer.from(new_txt)))
+                if(new_txt.length > 2){caption = newDecodeTxt }
 
                 if(save_newTxt){
-                    db.set('defaultText', default_txt).write();
+                    db.set('defaultText', newDecodeTxt).write();
                     console.log(chalk.green('text saved !'));
                 }
             }
@@ -280,6 +289,8 @@ async function run() {
         }
 
     } else if(searchDefaultText){
+
+
         const TxtAggregator = await inquirer.prompt([
             {
                 type: 'list',
