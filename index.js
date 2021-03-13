@@ -100,6 +100,7 @@ async function run() {
     }
 
     console.log(chalk.magenta('connect to Instagram...'));
+    
     const client = new Instagram(credentials);
     await client.login().catch(e => error = e);
     const profile = await client.getProfile();
@@ -234,8 +235,11 @@ async function run() {
                 
                 const 
                     {default_txt, save_defaultTxt} = defaultTxt,
-                    default_txt_decode = iconv.decode(default_txt ,chardet.detect(Buffer.from(default_txt)));
+                    txtFormat = chardet.detect(Buffer.from(default_txt)),
+                    default_txt_decode = txtFormat === "UTF-8" ? default_txt : iconv.decode(default_txt ,txtFormat);
+
                 if(save_defaultTxt){
+                    console.log(chalk.yellow(default_txt_decode));
                     db.set('defaultText', default_txt_decode).write();
                     console.log(chalk.green('text saved !'));
                 }
@@ -246,6 +250,7 @@ async function run() {
 
             console.log(chalk.yellow.inverse('My default text :'));
             console.log(chalk.yellowBright('\n',searchDefaultText));
+
             const defaultTxt = await inquirer.prompt([
                 {
                     type: 'confirm',
@@ -272,13 +277,16 @@ async function run() {
                     }
                 ]);
                 
-                const {new_txt, save_newTxt} = newTxt; 
+                const 
+                    {new_txt, save_newTxt} = newTxt,
+                    newTxtFormat = chardet.detect(Buffer.from(new_txt)),
+                    new_txt_decode = newTxtFormat === "UTF-8" ? new_txt : iconv.decode(new_txt ,newTxtFormat);
 
-                const newDecodeTxt =  iconv.decode(new_txt ,chardet.detect(Buffer.from(new_txt)))
-                if(new_txt.length > 2){caption = newDecodeTxt }
+                if(new_txt.length > 2){caption = new_txt_decode }
 
                 if(save_newTxt){
-                    db.set('defaultText', newDecodeTxt).write();
+                    db.set('defaultText', new_txt_decode).write();
+                    console.log(chalk.yellow(new_txt_decode));
                     console.log(chalk.green('text saved !'));
                 }
             }
@@ -315,6 +323,8 @@ async function run() {
 
     }
 
+    console.log(chalk.white('\n'));
+    console.log(chalk.whiteBright.inverse.bold("POST RESUME:"));
     console.log(chalk.white('---------------'));
     console.log(chalk.greenBright.bold(randomImage.name));
     console.log(chalk.bold('Your choiced text :'));
@@ -353,7 +363,7 @@ function init(){
                 horizontalLayout: 'default',
                 whitespaceBreak: true 
             })
-        ),'v0.1.5'
+        ),'v0.1.6'
     );
     run();
 }
