@@ -30,8 +30,7 @@ instauto-shuffle-lite
 
 ## How to use
 
-
-## V0.1.2
+## V0.1.4
 you can add **argument** `folder`. dont  forget `""`:
 ```bash
 npx instauto-shuffle-lite folder="MY_PICTURE_FOLDER_LINK"

@@ -100,12 +100,9 @@ async function run() {
     }
 
     console.log(chalk.magenta('connect to Instagram...'));
-    //const client = new Instagram(credentials);
-    //await client.login().catch(e => error = e);
-    //const profile = await client.getProfile();
-    const profile = {
-        username : 'ops'
-    }
+    const client = new Instagram(credentials);
+    await client.login().catch(e => error = e);
+    const profile = await client.getProfile();
 
     if(!profile){
         
@@ -356,7 +353,7 @@ function init(){
                 horizontalLayout: 'default',
                 whitespaceBreak: true 
             })
-        ),'v0.1.2'
+        ),'v0.1.5'
     );
     run();
 }
