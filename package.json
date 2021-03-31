@@ -42,6 +42,7 @@
     "inquirer": "^7.3.3",
     "instagram-web-api": "^2.2.2",
     "lowdb": "^1.0.0",
+    "tough-cookie-filestore2": "^1.0.0",
     "yargs": "^16.2.0"
   },
   "devDependencies": {
