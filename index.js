@@ -15,6 +15,7 @@ const
     readdir = util.promisify(fs.readdir),
     readFile = util.promisify(fs.readFile),
     typeFile = require('./typeFile'),
+    packageJson = require('./package.json'),
     args = process.argv.slice(2),
     iconv = require('iconv-lite'),
     chardet = require('chardet'),
@@ -367,7 +368,7 @@ function init(){
                 horizontalLayout: 'default',
                 whitespaceBreak: true 
             })
-        ),'v0.1.6'
+        ),'v'+packageJson.version
     );
     run();
 }
