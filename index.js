@@ -4,6 +4,7 @@ const
     low = require('lowdb'),
     FileSync = require('lowdb/adapters/FileSync'),
     clear = require('clear'),
+    FileCookieStore = require('tough-cookie-filestore2'),
     fs = require('fs'),
     chalk = require('chalk'),
     inquirer = require('inquirer'),
@@ -53,6 +54,7 @@ async function run() {
 
     const
         credentials = {},
+        cookieStore = new FileCookieStore(`${folder}${slash}cookies.json`),
         adapter = new FileSync(`${folder}${slash}save.json`),
         db = low(adapter);
         db.defaults({ credentials: null, files: [], defaultText: null }).write();
@@ -91,12 +93,14 @@ async function run() {
         
         credentials.username = username;
         credentials.password = password;
+        credentials.cookieStore = cookieStore;
 
         if(save_credentials){db.set('credentials', credentials).write()}
 
     } else {
         credentials.username = credentialsSave.username;
         credentials.password = credentialsSave.password;
+        credentials.cookieStore = cookieStore;
     }
 
     console.log(chalk.magenta('connect to Instagram...'));
@@ -104,7 +108,7 @@ async function run() {
     const client = new Instagram(credentials);
     await client.login().catch(e => error = e);
     const profile = await client.getProfile();
-
+    
     if(!profile){
         
         console.log(chalk.red('Problem with instagram connection'));
@@ -122,9 +126,9 @@ async function run() {
         if(del_credentials){
             db.unset('credentials.username').write();
             db.unset('credentials.password').write();
+            return console.log(chalk.red('credentials deleted'))
         }
-
-        return console.log(chalk.red('credentials deleted'))
+        return console.log(chalk.red('See you soon !'))
     }
 
     console.log(chalk.greenBright.inverse(`Welcome to Instagram ${profile.username}.`));
