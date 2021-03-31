@@ -30,7 +30,7 @@ instauto-shuffle-lite
 
 ## How to use
 
-## V0.1.6
+## V0.1.7
 your **Instagram** cookie is save in `cookie.json` in your **images folders** (with save.json).
 
 ## V0.1.4

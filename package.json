@@ -1,6 +1,6 @@
 {
   "name": "instauto-shuffle-lite",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "simple function for auto post in instagram",
   "main": "index.js",
   "scripts": {
