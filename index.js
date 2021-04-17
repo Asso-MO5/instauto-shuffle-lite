@@ -16,6 +16,7 @@ const
     readFile = util.promisify(fs.readFile),
     typeFile = require('./typeFile'),
     packageJson = require('./package.json'),
+    txtTransform = require('./lib/txtTransform'),
     args = process.argv.slice(2),
     iconv = require('iconv-lite'),
     chardet = require('chardet'),
@@ -109,6 +110,7 @@ async function run() {
     const client = new Instagram(credentials);
     await client.login().catch(e => error = e);
     const profile = await client.getProfile();
+    //const profile = {username: "test"};
     
     if(!profile){
         
@@ -190,7 +192,8 @@ async function run() {
                             value: type === "txt" && iconv.decode(await readFile(link) ,chardet.detectFileSync(link)),
                             link,
                             folder,
-                            publish: false
+                            publish: false,
+                            folderName: file
                         })
                         .write()
                     }
@@ -244,7 +247,7 @@ async function run() {
                     default_txt_decode = txtFormat === "UTF-8" ? default_txt : iconv.decode(default_txt ,txtFormat);
 
                 if(save_defaultTxt){
-                    console.log(chalk.yellow(default_txt_decode));
+                    console.log(chalk.yellow(txtTransform(default_txt_decode,randomImage)));
                     db.set('defaultText', default_txt_decode).write();
                     console.log(chalk.green('text saved !'));
                 }
@@ -254,7 +257,7 @@ async function run() {
         } else {
 
             console.log(chalk.yellow.inverse('My default text :'));
-            console.log(chalk.yellowBright('\n',searchDefaultText));
+            console.log(chalk.yellowBright('\n',txtTransform(searchDefaultText, randomImage)));
 
             const defaultTxt = await inquirer.prompt([
                 {
@@ -273,7 +276,7 @@ async function run() {
                     {
                         type: 'editor',
                         name: 'new_txt',
-                        message: 'Your text (you can add hastag): ',
+                        message: 'Your text (you can add hastag or %filename% for replace by file name): ',
                     },
                     {
                         type: 'confirm',
@@ -291,7 +294,7 @@ async function run() {
 
                 if(save_newTxt){
                     db.set('defaultText', new_txt_decode).write();
-                    console.log(chalk.yellow(new_txt_decode));
+                    console.log(chalk.yellow(txtTransform(new_txt_decode,randomImage)));
                     console.log(chalk.green('text saved !'));
                 }
             }
@@ -327,6 +330,8 @@ async function run() {
         }
 
     }
+
+    caption = txtTransform(caption,randomImage);
 
     console.log(chalk.white('\n'));
     console.log(chalk.whiteBright.inverse.bold("POST RESUME:"));

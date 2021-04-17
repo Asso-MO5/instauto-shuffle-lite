@@ -29,12 +29,14 @@ instauto-shuffle-lite
 ```
 
 ## How to use
-
+## V0.1.9
+✨ New feature ✨
+You can use `%filename%` in your text for replace by `file name`. 
 ## V0.1.8
-your **Instagram** cookie is save in `cookie.json` in your **images folders** (with save.json).
+Your **Instagram** cookie is save in `cookie.json` in your **images folders** (with save.json).
 
 ## V0.1.4
-you can add **argument** `folder`. dont  forget `""`:
+You can add **argument** `folder`. dont  forget `""`:
 ```bash
 npx instauto-shuffle-lite folder="MY_PICTURE_FOLDER_LINK"
 ```
